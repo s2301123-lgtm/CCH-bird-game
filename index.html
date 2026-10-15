@@ -3,210 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>觀鳥學會開放日：香港小鳥探險家！</title>
+  <title>香港小鳥探險家</title>
   <style>
-    :root {
-      --primary: #2e7d32;
-      --secondary: #81c784;
-      --accent: #ffb74d;
-      --bg: #f1f8e9;
-      --card: #ffffff;
-      --text: #2c3e50;
-    }
-
-    * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); margin: 0; padding: 15px; display: flex; justify-content: center; }
-    .game-card { background: var(--card); border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 500px; padding: 25px; text-align: center; }
-    
-    h1 { color: var(--primary); margin-bottom: 5px; font-size: 24px; }
-    .subtitle { color: #666; font-size: 14px; margin-bottom: 20px; }
-    
-    .stats { display: flex; justify-content: space-between; background: #e8f5e9; padding: 12px 20px; border-radius: 12px; margin-bottom: 20px; font-weight: bold; }
-    
-    .q-box { background: #fafafa; border: 2px dashed var(--secondary); border-radius: 15px; padding: 15px; margin-bottom: 20px; min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-    .q-text { font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #1b5e20; }
-    .q-desc { font-size: 14px; color: #555; margin-bottom: 10px; }
-    
-    .bird-img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; border: 2px solid #ddd; }
-    
-    .audio-btn { background: var(--accent); border: none; padding: 10px 20px; border-radius: 20px; font-size: 15px; font-weight: bold; cursor: pointer; color: #fff; margin-top: 5px; box-shadow: 0 4px #f57c00; }
-    .audio-btn:active { transform: translateY(2px); box-shadow: 0 2px #f57c00; }
-    
-    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-    .btn-opt { background: #f0f4f8; border: 2px solid #cfd8dc; border-radius: 12px; padding: 15px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s; color: var(--text); }
-    .btn-opt:hover { background: #e1f5fe; border-color: #29b6f6; }
-    
-    .feedback { font-weight: bold; font-size: 16px; margin-bottom: 15px; min-height: 24px; }
-    .correct { color: #2e7d32; }
-    .wrong { color: #c62828; }
-    
-    .next-btn, .start-btn { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
-    .next-btn:disabled { background: #ccc; cursor: not-allowed; }
-    
-    .hide { display: none !important; }
-    .trophy { font-size: 60px; margin: 10px 0; }
+    body { font-family: sans-serif; background: #f1f8e9; padding: 20px; text-align: center; }
+    .card { background: white; border-radius: 15px; padding: 20px; max-width: 450px; margin: 0 auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h1 { color: #2e7d32; }
+    .btn { background: #2e7d32; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; margin: 8px; cursor: pointer; width: 100%; }
+    .btn-opt { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
+    .img { width: 100%; max-height: 220px; object-fit: cover; border-radius: 10px; margin: 10px 0; }
+    .hide { display: none; }
   </style>
 </head>
 <body>
 
-<div class="game-card">
-  <!-- 開始畫面 -->
-  <div id="start-screen">
+<div class="card">
+  <div id="start">
     <h1>🦅 香港小鳥探險家</h1>
-    <p class="subtitle">觀鳥學會開放日特別版</p>
-    <div style="font-size: 70px; margin: 20px 0;">🦜</div>
-    <p style="text-align: left; line-height: 1.6; color: #444;">
-      歡迎來到觀鳥世界！你能認出香港公園和市區常見的小鳥嗎？<br>
-      回答 5 道關卡，考考你的「眼力」與「耳力」！
-    </p>
-    <button class="start-btn" onclick="startGame()">開始挑戰！</button>
+    <p>觀鳥學會開放日特別版（4-6年級）</p>
+    <button class="btn" onclick="startGame()">開始遊戲</button>
   </div>
 
-  <!-- 遊戲畫面 -->
-  <div id="game-screen" class="hide">
-    <div class="stats">
-      <span>關卡: <span id="q-num">1</span>/5</span>
-      <span>得分: <span id="score">0</span></span>
-    </div>
-
-    <div class="q-box">
-      <div class="q-text" id="q-title">題目載入中...</div>
-      <img id="q-img" class="bird-img hide" src="" alt="鳥類照片">
-      <div class="q-desc" id="q-desc"></div>
-      <button id="audio-btn" class="audio-btn hide" onclick="playAudio()">🔊 播放鳥叫聲</button>
-    </div>
-
-    <div class="feedback" id="feedback"></div>
-
-    <div class="options" id="options-box"></div>
-
-    <button id="next-btn" class="next-btn" onclick="nextQuestion()" disabled>下一題 ➔</button>
+  <div id="game" class="hide">
+    <h3 id="q-title"></h3>
+    <img id="q-img" class="img hide" src="" alt="鳥類照片">
+    <p id="q-desc"></p>
+    <div id="opts"></div>
+    <p id="msg" style="font-weight:bold;"></p>
+    <button id="next" class="btn hide" onclick="nextQ()">下一題</button>
   </div>
 
-  <!-- 結算畫面 -->
-  <div id="end-screen" class="hide">
+  <div id="end" class="hide">
     <h1>🎉 挑戰完成！</h1>
-    <div class="trophy" id="badge">🏆</div>
-    <h2>最終得分：<span id="final-score">0</span> / 100</h2>
-    <p id="rank-text" style="font-size: 16px; color: #444; line-height: 1.6; margin-bottom: 25px;"></p>
-    <button class="start-btn" onclick="startGame()">再玩一次</button>
+    <h2 id="score"></h2>
+    <button class="btn" onclick="startGame()">再玩一次</button>
   </div>
 </div>
 
 <script>
-  const questions = [
-    {
-      title: "【看照片猜鳥名】",
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Black-collared_starling_%28Gracupica_nigricollis%29_juvenile.jpg/640px-Black-collared_starling_%28Gracupica_nigricollis%29_juvenile.jpg",
-      desc: "看圖片中的鳥：眼睛周圍有黃色裸皮，幼鳥脖子是褐色的，長大後會長出黑色領巾，這是什麼鳥？",
-      options: ["黑領椋鳥", "紅耳鵯", "麻雀", "珠頸斑鳩"],
-      answer: 0
-    },
-    {
-      title: "【聽音辨鳥】",
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/White-breasted_Waterhen_%28Amaurornis_phoenicurus%29_in_Kolkata_I_IMG_6881.jpg/640px-White-breasted_Waterhen_%28Amaurornis_phoenicurus%29_in_Kolkata_I_IMG_6881.jpg",
-      desc: "點擊按鈕收聽聲音！這種鳥常在濕地出現，叫聲聽起來像「苦惡、苦惡」：",
-      hasAudio: true,
-      audioText: "Ku-o, Ku-o, Ku-o!",
-      options: ["白胸苦惡鳥", "小白鷺", "喜鵲", "蒼鷺"],
-      answer: 0,
-      soundPitch: 0.8
-    },
-    {
-      title: "【看照片猜鳥名】",
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Red-whiskered_Bulbul_%28Pycnonotus_jocosus%29_in_Kolkata_W_IMG_3822.jpg/640px-Red-whiskered_Bulbul_%28Pycnonotus_jocosus%29_in_Kolkata_W_IMG_3822.jpg",
-      desc: "頭頂有高聳的黑色冠羽，臉頰有醒目的紅斑，像是戴了紅耳環一樣，牠是？",
-      options: ["噪鶇", "紅耳鵯", "小白鷺", "八哥"],
-      answer: 1
-    },
-    {
-      title: "【觀鳥小知識】",
-      desc: "在野外觀鳥時，哪一種行為是「不正確」的？",
-      options: ["保持安靜觀察", "使用雙筒望遠鏡", "大聲叫喊吸引鳥類", "不餵食野鳥"],
-      answer: 2
-    },
-    {
-      title: "【看照片猜鳥名】",
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Spotted_dove_%28Spilopelia_chinensis_chinensis%29.jpg/640px-Spotted_dove_%28Spilopelia_chinensis_chinensis%29.jpg",
-      desc: "後頸有一塊像黑底白點圍巾的羽毛，常在公園地面走動咕咕叫，牠是？",
-      options: ["珠頸斑鳩", "家鴿", "黑臉琵鷺", "普通翠鳥"],
-      answer: 0
-    }
+  const data = [
+    { title: "第1題：這是什麼鳥？", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Black-collared_starling_%28Gracupica_nigricollis%29_juvenile.jpg/640px-Black-collared_starling_%28Gracupica_nigricollis%29_juvenile.jpg", desc: "眼睛周圍有黃色裸皮，幼鳥脖子是褐色的，長大後會長出黑色領巾：", opts: ["黑領椋鳥", "紅耳鵯", "麻雀", "珠頸斑鳩"], ans: 0 },
+    { title: "第2題：聽音辨鳥", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/White-breasted_Waterhen_%28Amaurornis_phoenicurus%29_in_Kolkata_I_IMG_6881.jpg/640px-White-breasted_Waterhen_%28Amaurornis_phoenicurus%29_in_Kolkata_I_IMG_6881.jpg", desc: "常在濕地出現，叫聲聽起來像「苦惡、苦惡」：", opts: ["白胸苦惡鳥", "小白鷺", "喜鵲", "蒼鷺"], ans: 0 },
+    { title: "第3題：這是什麼鳥？", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Red-whiskered_Bulbul_%28Pycnonotus_jocosus%29_in_Kolkata_W_IMG_3822.jpg/640px-Red-whiskered_Bulbul_%28Pycnonotus_jocosus%29_in_Kolkata_W_IMG_3822.jpg", desc: "頭頂有高聳黑色冠羽，臉頰有醒目紅斑：", opts: ["噪鶇", "紅耳鵯", "小白鷺", "八哥"], ans: 1 },
+    { title: "第4題：觀鳥常識", img: "", desc: "在野外觀鳥時，哪一種行為是「不正確」的？", opts: ["保持安靜", "用望遠鏡", "大聲叫喊吸引鳥類", "不餵食"], ans: 2 },
+    { title: "第5題：這是什麼鳥？", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Spotted_dove_%28Spilopelia_chinensis_chinensis%29.jpg/640px-Spotted_dove_%28Spilopelia_chinensis_chinensis%29.jpg", desc: "後頸有黑底白點圍巾羽毛，常在公園地面走動：", opts: ["珠頸斑鳩", "家鴿", "黑臉琵鷺", "普通翠鳥"], ans: 0 }
   ];
 
-  let currentQ = 0;
-  let score = 0;
-  let answered = false;
+  let cur = 0, pts = 0;
 
   function startGame() {
-    currentQ = 0;
-    score = 0;
-    document.getElementById("start-screen").classList.add("hide");
-    document.getElementById("end-screen").classList.add("hide");
-    document.getElementById("game-screen").classList.remove("hide");
-    showQuestion();
-  }
-
-  function showQuestion() {
-    answered = false;
-    document.getElementById("next-btn").disabled = true;
-    document.getElementById("feedback").innerText = "";
-    
-    const q = questions[currentQ];
-    document.getElementById("q-num").innerText = currentQ + 1;
-    document.getElementById("score").innerText = score;
-    document.getElementById("q-title").innerText = q.title;
-    document.getElementById("q-desc").innerText = q.desc;
-
-    const imgEl = document.getElementById("q-img");
-    if(q.img) {
-      imgEl.src = q.img;
-      imgEl.classList.remove("hide");
-    } else {
-      imgEl.classList.add("hide");
-    }
-
-    const audioBtn = document.getElementById("audio-btn");
-    if(q.hasAudio) {
-      audioBtn.classList.remove("hide");
-    } else {
-      audioBtn.classList.add("hide");
-    }
-
-    const optBox = document.getElementById("options-box");
-    optBox.innerHTML = "";
-    q.options.forEach((opt, idx) => {
-      const btn = document.createElement("button");
-      btn.className = "btn-opt";
-      btn.innerText = opt;
-      btn.onclick = () => checkAnswer(idx);
-      optBox.appendChild(btn);
-    });
-  }
-
-  function playAudio() {
-    const q = questions[currentQ];
-    if(!window.speechSynthesis) return;
-    const utterance = new SpeechSynthesisUtterance(q.audioText);
-    utterance.pitch = q.soundPitch || 1;
-    utterance.rate = 0.8;
-    utterance.lang = 'zh-HK';
-    window.speechSynthesis.speak(utterance);
-  }
-
-  function checkAnswer(selectedIdx) {
-    if(answered) return;
-    answered = true;
-
-    const q = questions[currentQ];
-    const opts = document.querySelectorAll(".btn-opt");
-    
-    if(selectedIdx === q.answer) {
-      score += 20;
-      document.getElementById("score").innerText = score;
-      document.getElementById("feedback").innerText = "✨ 回答正確！太棒了！";
-      document.getElementById("feedback").className = "feedback correct";
-      opts[selectedIdx].style.background = "#c8e6c9";
-      opts[selectedIdx].style.borderColor = "#4caf50";
-    } else {
-      document.getElementById("feedback").
+    cur = 0; pts = 0;
+    document.getElementById("start").classList.add("hide");
+    document.getElementById("end").classList.add("hide");
+    document.getElementById("game").classList.remove("hide");
