@@ -3,100 +3,202 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>香港小鳥探險家</title>
+  <title>CYBER BIRD: 香港小鳥探險家 2026</title>
   <style>
-    body { font-family: sans-serif; background: #e8f5e9; padding: 20px; text-align: center; }
-    .card { background: white; border-radius: 15px; padding: 20px; max-width: 400px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    button { background: #2e7d32; color: white; border: none; padding: 12px; margin: 8px 0; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; }
-    .opt { background: #f0f4f8; color: #333; border: 1px solid #ccc; }
-    img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin: 10px 0; }
-    .hide { display: none; }
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+TC:wght@400;700;900&display=swap');
+
+    :root {
+      --neon-green: #00ff66;
+      --neon-blue: #00e5ff;
+      --neon-red: #ff0055;
+      --neon-yellow: #ffe600;
+      --bg-dark: #0a0e17;
+      --panel-bg: rgba(16, 24, 40, 0.85);
+    }
+
+    * { box-sizing: border-box; font-family: 'Orbitron', 'Noto Sans TC', sans-serif; user-select: none; }
+    
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 20%, rgba(0, 229, 255, 0.15) 0%, transparent 50%),
+        linear-gradient(rgba(0, 255, 102, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 102, 0.05) 1px, transparent 1px);
+      background-size: 100% 100%, 30px 30px, 30px 30px;
+      color: #fff;
+      margin: 0;
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .hud-card {
+      background: var(--panel-bg);
+      border: 2px solid var(--neon-blue);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.3), inset 0 0 15px rgba(0, 229, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+
+    .hud-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(0, 229, 255, 0.3);
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .hud-title {
+      font-size: 14px;
+      color: var(--neon-blue);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .timer-bar-bg {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    .timer-bar-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+      transition: width 0.1s linear;
+      box-shadow: 0 0 10px var(--neon-green);
+    }
+
+    .img-box {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--neon-blue);
+      margin-bottom: 15px;
+      background: #000;
+    }
+
+    .img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .scan-line {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--neon-green);
+      box-shadow: 0 0 15px var(--neon-green);
+      animation: scan 2s infinite ease-in-out;
+      opacity: 0.7;
+    }
+
+    @keyframes scan {
+      0% { top: 0%; }
+      50% { top: 95%; }
+      100% { top: 0%; }
+    }
+
+    .q-desc {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #e0e6ed;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .opts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .btn-cyber {
+      background: rgba(0, 229, 255, 0.05);
+      border: 1px solid var(--neon-blue);
+      color: #fff;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-cyber:active {
+      transform: scale(0.96);
+      background: rgba(0, 229, 255, 0.2);
+    }
+
+    .btn-cyber.correct {
+      background: rgba(0, 255, 102, 0.25) !important;
+      border-color: var(--neon-green) !important;
+      box-shadow: 0 0 15px var(--neon-green);
+    }
+
+    .btn-cyber.wrong {
+      background: rgba(255, 0, 85, 0.25) !important;
+      border-color: var(--neon-red) !important;
+      box-shadow: 0 0 15px var(--neon-red);
+    }
+
+    .btn-start, .btn-next {
+      width: 100%;
+      background: linear-gradient(135deg, var(--neon-blue), #0077ff);
+      border: none;
+      color: #000;
+      font-weight: 900;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .combo-badge {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      background: var(--neon-yellow);
+      color: #000;
+      font-weight: 900;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      box-shadow: 0 0 10px var(--neon-yellow);
+      display: none;
+    }
+
+    .hide { display: none !important; }
   </style>
 </head>
 <body>
 
-<div class="card">
-  <div id="start">
-    <h2>🦅 香港小鳥探險家</h2>
-    <p>觀鳥學會開放日遊戲</p>
-    <button onclick="start()">開始遊戲</button>
-  </div>
+<div class="hud-card">
+  <div class="combo-badge" id="combo-tag">COMBO x2</div>
 
-  <div id="game" class="hide">
-    <h3 id="title"></h3>
-    <img id="img" src="" class="hide">
-    <p id="desc"></p>
-    <div id="opts"></div>
-    <p id="ans-msg" style="font-weight:bold;"></p>
-    <button id="next-btn" class="hide" onclick="next()">下一題</button>
-  </div>
-
-  <div id="end" class="hide">
-    <h2>🎉 遊戲結束！</h2>
-    <h3 id="final"></h3>
-    <button onclick="start()">再玩一次</button>
-  </div>
-</div>
-
-<script>
-  const qList = [
-    { t: "第 1 題", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Black-collared_starling_%28Gracupica_nigricollis%29_juvenile.jpg/640px-Black-collared_starling_%28Gracupica_nigricollis%29_juvenile.jpg", d: "眼周有黃色裸皮，幼鳥脖子褐色，長大有黑色領巾：", o: ["黑領椋鳥", "紅耳鵯", "麻雀", "珠頸斑鳩"], a: 0 },
-    { t: "第 2 題", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/White-breasted_Waterhen_%28Amaurornis_phoenicurus%29_in_Kolkata_I_IMG_6881.jpg/640px-White-breasted_Waterhen_%28Amaurornis_phoenicurus%29_in_Kolkata_I_IMG_6881.jpg", d: "常在濕地出現，叫聲「苦惡、苦惡」：", o: ["白胸苦惡鳥", "小白鷺", "喜鵲", "蒼鷺"], a: 0 },
-    { t: "第 3 題", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Red-whiskered_Bulbul_%28Pycnonotus_jocosus%29_in_Kolkata_W_IMG_3822.jpg/640px-Red-whiskered_Bulbul_%28Pycnonotus_jocosus%29_in_Kolkata_W_IMG_3822.jpg", d: "頭頂有高聳黑色冠羽，臉頰有醒目紅斑：", o: ["噪鶇", "紅耳鵯", "小白鷺", "八哥"], a: 1 },
-    { t: "第 4 題", img: "", d: "在野外觀鳥時，哪種行為是錯誤的？", o: ["保持安靜", "使用望遠鏡", "大聲叫喊吸引鳥類", "不餵食"], a: 2 },
-    { t: "第 5 題", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Spotted_dove_%28Spilopelia_chinensis_chinensis%29.jpg/640px-Spotted_dove_%28Spilopelia_chinensis_chinensis%29.jpg", d: "後頸有黑底白點圍巾羽毛，常在地面走動：", o: ["珠頸斑鳩", "家鴿", "黑臉琵鷺", "普通翠鳥"], a: 0 }
-  ];
-
-  let idx = 0, score = 0;
-
-  function start() {
-    idx = 0; score = 0;
-    document.getElementById("start").classList.add("hide");
-    document.getElementById("end").classList.add("hide");
-    document.getElementById("game").classList.remove("hide");
-    loadQ();
-  }
-
-  function loadQ() {
-    document.getElementById("next-btn").classList.add("hide");
-    document.getElementById("ans-msg").innerText = "";
-    const q = qList[idx];
-    document.getElementById("title").innerText = q.t;
-    document.getElementById("desc").innerText = q.d;
-    
-    const img = document.getElementById("img");
-    if(q.img) { img.src = q.img; img.classList.remove("hide"); } 
-    else { img.classList.add("hide"); }
-
-    const box = document.getElementById("opts");
-    box.innerHTML = "";
-    q.o.forEach((optText, i) => {
-      box.innerHTML += `<button class="opt" onclick="check(${i})">${optText}</button>`;
-    });
-  }
-
-  function check(i) {
-    const q = qList[idx];
-    if(i === q.a) {
-      score += 20;
-      document.getElementById("ans-msg").innerText = "✨ 答對了！";
-      document.getElementById("ans-msg").style.color = "green";
-    } else {
-      document.getElementById("ans-msg").innerText = "❌ 答錯！答案是：" + q.o[q.a];
-      document.getElementById("ans-msg").style.color = "red";
-    }
-    document.getElementById("next-btn").classList.remove("hide");
-  }
-
-  function next() {
-    idx++;
-    if(idx < q.length) loadQ();
-    else {
-      document.getElementById("game").classList.add("hide");
-      document.getElementById("end").classList.remove("hide");
-      document.getElementById("final").innerText = "得分：" + score + " 分";
-    }
-  }
-</script>
-</body>
-</html>
+  <!-- 開始介面 -->
+  <div id="screen-start">
+    <div style="font-size: 40px; margin-bottom: 10px;">🦅</div>
+    <h1 style="color: var(--neon-blue); font-size: 22px; margin: 0 0 10px 0;">CYBER BIRD EXPLO</h1>
+    <p style="color: #aaa; font-size: 14px; margin-bottom: 25px;">觀鳥學會開放日：未來鳥類識別矩陣</p>
+    <div style="text-align: left; background: rgba(2
