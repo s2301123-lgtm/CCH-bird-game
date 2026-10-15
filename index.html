@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>觀鳥學會開放日：香港小鳥探險家！</title>
+  <title>觀鳥學會小遊戲：香港小鳥探險家</title>
   <style>
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #e8f5e9; padding: 15px; text-align: center; margin: 0; }
     .card { background: white; border-radius: 18px; padding: 20px; max-width: 450px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -22,11 +22,11 @@
 <div class="card">
   <!-- 開始畫面 -->
   <div id="start">
-    <h2>🦅 香港小鳥探險家</h2>
-    <p style="color:#666;">觀鳥學會開放日特別版（10題挑戰）</p>
+    <h2>🦅 觀鳥學會小遊戲</h2>
+    <p style="color:#666;">香港小鳥探險家（10題挑戰）</p>
     <div style="font-size: 60px; margin: 15px 0;">🦜</div>
     <p style="text-align: left; color: #444; line-height: 1.5;">
-      歡迎參加觀鳥學會開放日！你能認出香港常見的小鳥嗎？回答 10 道簡單題目，考考你的觀鳥能力吧！
+      歡迎參加觀鳥學會小遊戲！你能認出香港常見的小鳥嗎？回答 10 道簡單題目，考考你的觀鳥能力吧！
     </p>
     <button onclick="start()">開始挑戰！</button>
   </div>
@@ -53,4 +53,146 @@
 
 <script>
   // 10 道題目資料庫
-  const qList =
+  const qList = [
+    {
+      t: "第 1 題 / 共 10 題",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Black-collared_starling_%28Gracupica_nigricollis%29_juvenile.jpg/640px-Black-collared_starling_%28Gracupica_nigricollis%29_juvenile.jpg",
+      d: "眼睛周圍有鮮黃色的裸皮，幼鳥脖子是褐色的，長大後脖子會長出一圈黑色的「領巾」，這是什麼鳥？",
+      o: ["黑領椋鳥", "紅耳鵯", "麻雀", "珠頸斑鳩"],
+      a: 0
+    },
+    {
+      t: "第 2 題 / 共 10 題",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Red-whiskered_Bulbul_%28Pycnonotus_jocosus%29_in_Kolkata_W_IMG_3822.jpg/640px-Red-whiskered_Bulbul_%28Pycnonotus_jocosus%29_in_Kolkata_W_IMG_3822.jpg",
+      d: "頭頂有高聳的黑色冠羽，臉頰上有醒目的紅斑，像是戴了紅耳環一樣，牠是？",
+      o: ["噪鶇", "紅耳鵯", "小白鷺", "八哥"],
+      a: 1
+    },
+    {
+      t: "第 3 題 / 共 10 題",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Spotted_dove_%28Spilopelia_chinensis_chinensis%29.jpg/640px-Spotted_dove_%28Spilopelia_chinensis_chinensis%29.jpg",
+      d: "後頸有一塊像黑底白點「珍珠圍巾」的羽毛，常在公園地面蹦蹦跳跳，發出咕咕聲，牠是？",
+      o: ["珠頸斑鳩", "家鴿", "黑臉琵鷺", "普通翠鳥"],
+      a: 0
+    },
+    {
+      t: "第 4 題 / 共 10 題",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/White-breasted_Waterhen_%28Amaurornis_phoenicurus%29_in_Kolkata_I_IMG_6881.jpg/640px-White-breasted_Waterhen_%28Amaurornis_phoenicurus%29_in_Kolkata_I_IMG_6881.jpg",
+      d: "常在濕地或池塘邊出現，叫聲聽起來很像「苦惡、苦惡」，牠的名字是？",
+      o: ["白胸苦惡鳥", "小白鷺", "喜鵲", "蒼鷺"],
+      a: 0
+    },
+    {
+      t: "第 5 題 / 共 10 題",
+      img: "",
+      d: "【觀鳥小知識】在野外觀鳥時，哪一種行為是「不正確」的？",
+      o: ["保持安靜觀察", "使用雙筒望遠鏡", "大聲叫喊吸引鳥類", "不隨意餵食野鳥"],
+      a: 2
+    },
+    {
+      t: "第 6 題 / 共 10 題",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Egretta_garzetta_1_%28Marek_Szczepanek%29.jpg/640px-Egretta_garzetta_1_%28Marek_Szczepanek%29.jpg",
+      d: "全身羽毛雪白，嘴巴是黑色的，腳趾是鮮豔的黃色，常用雙腳在水中踩踏覓食，牠是？",
+      o: ["小白鷺", "大蒼鷺", "夜鷺", "池鷺"],
+      a: 0
+    },
+    {
+      t: "第 7 題 / 共 10 題",
+      img: "",
+      d: "體型小巧，羽毛呈棕褐色，非常適應城市生活，常在花壇或街道邊成群啄食穀物，這是？",
+      o: ["樹麻雀", "黑背鶺鴴", "綠繡眼", "鵲鴝"],
+      a: 0
+    },
+    {
+      t: "第 8 題 / 共 10 題",
+      img: "",
+      d: "體型嬌小，眼睛周圍有一圈非常明顯的白色羽毛「白眼圈」，全身呈黃綠色，牠是？",
+      o: ["綠繡眼", "紅耳鵯", "相思鳥", "黃腹鷦鶯"],
+      a: 0
+    },
+    {
+      t: "第 9 題 / 共 10 題",
+      img: "",
+      d: "羽毛主要是黑白兩色，尾巴很長，翅膀帶有藍綠色金屬光澤，在香港民間被視為帶來好運的鳥，牠是？",
+      o: ["喜鵲", "樹鵲", "烏鴉", "黑領椋鳥"],
+      a: 0
+    },
+    {
+      t: "第 10 題 / 共 10 題",
+      img: "",
+      d: "【觀鳥裝備】觀察高處或遠處的小鳥時，最適合使用哪種工具？",
+      o: ["雙筒望遠鏡", "放大鏡", "顯微鏡", "太陽眼鏡"],
+      a: 0
+    }
+  ];
+
+  let idx = 0, score = 0, answered = false;
+
+  function start() {
+    idx = 0; score = 0;
+    document.getElementById("start").classList.add("hide");
+    document.getElementById("end").classList.add("hide");
+    document.getElementById("game").classList.remove("hide");
+    loadQ();
+  }
+
+  function loadQ() {
+    answered = false;
+    document.getElementById("next-btn").classList.add("hide");
+    document.getElementById("ans-msg").innerText = "";
+    document.getElementById("score").innerText = score;
+    
+    const q = qList[idx];
+    document.getElementById("title").innerText = q.t;
+    document.getElementById("desc").innerText = q.d;
+    
+    const img = document.getElementById("img");
+    if(q.img) { img.src = q.img; img.classList.remove("hide"); } 
+    else { img.classList.add("hide"); }
+
+    const box = document.getElementById("opts");
+    box.innerHTML = "";
+    q.o.forEach((optText, i) => {
+      box.innerHTML += `<button class="opt" onclick="check(${i})">${optText}</button>`;
+    });
+  }
+
+  function check(i) {
+    if(answered) return;
+    answered = true;
+
+    const q = qList[idx];
+    if(i === q.a) {
+      score += 10;
+      document.getElementById("score").innerText = score;
+      document.getElementById("ans-msg").innerText = "✨ 回答正確！太棒了！";
+      document.getElementById("ans-msg").style.color = "#2e7d32";
+    } else {
+      document.getElementById("ans-msg").innerText = "❌ 答錯了！正確答案是：" + q.o[q.a];
+      document.getElementById("ans-msg").style.color = "#c62828";
+    }
+    document.getElementById("next-btn").classList.remove("hide");
+  }
+
+  function next() {
+    idx++;
+    if(idx < qList.length) {
+      loadQ();
+    } else {
+      document.getElementById("game").classList.add("hide");
+      document.getElementById("end").classList.remove("hide");
+      document.getElementById("final").innerText = "最終得分：" + score + " / 100 分";
+      
+      const c = document.getElementById("comment");
+      if(score >= 80) {
+        c.innerHTML = "<b>稱號：觀鳥大師 🥇</b><br>太厲害了！你對香港的小鳥瞭如指掌！歡迎加入觀鳥學會！";
+      } else if(score >= 50) {
+        c.innerHTML = "<b>稱號：資深探險家 🥈</b><br>表現很棒！再多觀察身邊的小鳥就能拿滿分囉！";
+      } else {
+        c.innerHTML = "<b>稱號：新手觀鳥員 🥉</b><br>感謝參加！多了解各類小鳥知識吧！";
+      }
+    }
+  }
+</script>
+</body>
+</html>
