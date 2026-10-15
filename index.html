@@ -3,202 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CYBER BIRD: 香港小鳥探險家 2026</title>
+  <title>觀鳥學會開放日：香港小鳥探險家！</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+TC:wght@400;700;900&display=swap');
-
-    :root {
-      --neon-green: #00ff66;
-      --neon-blue: #00e5ff;
-      --neon-red: #ff0055;
-      --neon-yellow: #ffe600;
-      --bg-dark: #0a0e17;
-      --panel-bg: rgba(16, 24, 40, 0.85);
-    }
-
-    * { box-sizing: border-box; font-family: 'Orbitron', 'Noto Sans TC', sans-serif; user-select: none; }
-    
-    body {
-      background-color: var(--bg-dark);
-      background-image: 
-        radial-gradient(circle at 50% 20%, rgba(0, 229, 255, 0.15) 0%, transparent 50%),
-        linear-gradient(rgba(0, 255, 102, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 102, 0.05) 1px, transparent 1px);
-      background-size: 100% 100%, 30px 30px, 30px 30px;
-      color: #fff;
-      margin: 0;
-      padding: 15px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .hud-card {
-      background: var(--panel-bg);
-      border: 2px solid var(--neon-blue);
-      box-shadow: 0 0 20px rgba(0, 229, 255, 0.3), inset 0 0 15px rgba(0, 229, 255, 0.1);
-      border-radius: 16px;
-      padding: 24px;
-      width: 100%;
-      max-width: 480px;
-      position: relative;
-      backdrop-filter: blur(10px);
-    }
-
-    .hud-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(0, 229, 255, 0.3);
-      padding-bottom: 10px;
-      margin-bottom: 15px;
-    }
-
-    .hud-title {
-      font-size: 14px;
-      color: var(--neon-blue);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .timer-bar-bg {
-      width: 100%;
-      height: 6px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 3px;
-      overflow: hidden;
-      margin-bottom: 15px;
-    }
-
-    .timer-bar-fill {
-      height: 100%;
-      width: 100%;
-      background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
-      transition: width 0.1s linear;
-      box-shadow: 0 0 10px var(--neon-green);
-    }
-
-    .img-box {
-      position: relative;
-      width: 100%;
-      height: 200px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--neon-blue);
-      margin-bottom: 15px;
-      background: #000;
-    }
-
-    .img-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .scan-line {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: var(--neon-green);
-      box-shadow: 0 0 15px var(--neon-green);
-      animation: scan 2s infinite ease-in-out;
-      opacity: 0.7;
-    }
-
-    @keyframes scan {
-      0% { top: 0%; }
-      50% { top: 95%; }
-      100% { top: 0%; }
-    }
-
-    .q-desc {
-      font-size: 16px;
-      line-height: 1.5;
-      color: #e0e6ed;
-      margin-bottom: 20px;
-      text-align: left;
-    }
-
-    .opts-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 15px;
-    }
-
-    .btn-cyber {
-      background: rgba(0, 229, 255, 0.05);
-      border: 1px solid var(--neon-blue);
-      color: #fff;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-cyber:active {
-      transform: scale(0.96);
-      background: rgba(0, 229, 255, 0.2);
-    }
-
-    .btn-cyber.correct {
-      background: rgba(0, 255, 102, 0.25) !important;
-      border-color: var(--neon-green) !important;
-      box-shadow: 0 0 15px var(--neon-green);
-    }
-
-    .btn-cyber.wrong {
-      background: rgba(255, 0, 85, 0.25) !important;
-      border-color: var(--neon-red) !important;
-      box-shadow: 0 0 15px var(--neon-red);
-    }
-
-    .btn-start, .btn-next {
-      width: 100%;
-      background: linear-gradient(135deg, var(--neon-blue), #0077ff);
-      border: none;
-      color: #000;
-      font-weight: 900;
-      padding: 16px;
-      border-radius: 8px;
-      font-size: 18px;
-      cursor: pointer;
-      box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .combo-badge {
-      position: absolute;
-      top: -10px;
-      right: 20px;
-      background: var(--neon-yellow);
-      color: #000;
-      font-weight: 900;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      box-shadow: 0 0 10px var(--neon-yellow);
-      display: none;
-    }
-
-    .hide { display: none !important; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #e8f5e9; padding: 15px; text-align: center; margin: 0; }
+    .card { background: white; border-radius: 18px; padding: 20px; max-width: 450px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    h2 { color: #2e7d32; margin-top: 5px; }
+    button { background: #2e7d32; color: white; border: none; padding: 12px; margin: 8px 0; width: 100%; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .opt { background: #f0f4f8; color: #333; border: 2px solid #cfd8dc; transition: 0.2s; }
+    .opt:active { background: #c8e6c9; }
+    img { width: 100%; max-height: 220px; object-fit: cover; border-radius: 10px; margin: 10px 0; border: 1px solid #ddd; }
+    .hide { display: none; }
+    .progress { font-weight: bold; color: #555; margin-bottom: 10px; }
+    #ans-msg { font-size: 16px; font-weight: bold; margin: 10px 0; }
   </style>
 </head>
 <body>
 
-<div class="hud-card">
-  <div class="combo-badge" id="combo-tag">COMBO x2</div>
+<div class="card">
+  <!-- 開始畫面 -->
+  <div id="start">
+    <h2>🦅 香港小鳥探險家</h2>
+    <p style="color:#666;">觀鳥學會開放日特別版（10題挑戰）</p>
+    <div style="font-size: 60px; margin: 15px 0;">🦜</div>
+    <p style="text-align: left; color: #444; line-height: 1.5;">
+      歡迎參加觀鳥學會開放日！你能認出香港常見的小鳥嗎？回答 10 道簡單題目，考考你的觀鳥能力吧！
+    </p>
+    <button onclick="start()">開始挑戰！</button>
+  </div>
 
-  <!-- 開始介面 -->
-  <div id="screen-start">
-    <div style="font-size: 40px; margin-bottom: 10px;">🦅</div>
-    <h1 style="color: var(--neon-blue); font-size: 22px; margin: 0 0 10px 0;">CYBER BIRD EXPLO</h1>
-    <p style="color: #aaa; font-size: 14px; margin-bottom: 25px;">觀鳥學會開放日：未來鳥類識別矩陣</p>
-    <div style="text-align: left; background: rgba(2
+  <!-- 遊戲畫面 -->
+  <div id="game" class="hide">
+    <div class="progress"><span id="title"></span> | 得分：<span id="score">0</span></div>
+    <img id="img" src="" class="hide" alt="小鳥照片">
+    <p id="desc" style="font-size: 15px; color: #333; font-weight: bold; text-align: left;"></p>
+    <div id="opts"></div>
+    <div id="ans-msg"></div>
+    <button id="next-btn" class="hide" onclick="next()">下一題 ➔</button>
+  </div>
+
+  <!-- 結算畫面 -->
+  <div id="end" class="hide">
+    <h2>🎉 挑戰完成！</h2>
+    <div style="font-size: 50px; margin: 10px 0;">🏆</div>
+    <h3 id="final"></h3>
+    <p id="comment" style="color: #555; line-height: 1.5;"></p>
+    <button onclick="start()">再玩一次</button>
+  </div>
+</div>
+
+<script>
+  // 10 道題目資料庫
+  const qList =
