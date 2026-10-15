@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>香港小鳥探險家</title>
   <style>
-    body { font-family: sans-serif; background: #f1f8e9; padding: 20px; text-align: center; }
-    .card { background: white; border-radius: 15px; padding: 20px; max-width: 450px; margin: 0 auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    h1 { color: #2e7d32; }
-    .btn { background: #2e7d32; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; margin: 8px; cursor: pointer; width: 100%; }
-    .btn-opt { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
-    .img { width: 100%; max-height: 220px; object-fit: cover; border-radius: 10px; margin: 10px 0; }
+    body { font-family: sans-serif; background: #e8f5e9; padding: 20px; text-align: center; }
+    .card { background: white; border-radius: 15px; padding: 20px; max-width: 400px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    button { background: #2e7d32; color: white; border: none; padding: 12px; margin: 8px 0; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; }
+    .opt { background: #f0f4f8; color: #333; border: 1px solid #ccc; }
+    img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin: 10px 0; }
     .hide { display: none; }
   </style>
 </head>
@@ -18,40 +17,86 @@
 
 <div class="card">
   <div id="start">
-    <h1>🦅 香港小鳥探險家</h1>
-    <p>觀鳥學會開放日特別版（4-6年級）</p>
-    <button class="btn" onclick="startGame()">開始遊戲</button>
+    <h2>🦅 香港小鳥探險家</h2>
+    <p>觀鳥學會開放日遊戲</p>
+    <button onclick="start()">開始遊戲</button>
   </div>
 
   <div id="game" class="hide">
-    <h3 id="q-title"></h3>
-    <img id="q-img" class="img hide" src="" alt="鳥類照片">
-    <p id="q-desc"></p>
+    <h3 id="title"></h3>
+    <img id="img" src="" class="hide">
+    <p id="desc"></p>
     <div id="opts"></div>
-    <p id="msg" style="font-weight:bold;"></p>
-    <button id="next" class="btn hide" onclick="nextQ()">下一題</button>
+    <p id="ans-msg" style="font-weight:bold;"></p>
+    <button id="next-btn" class="hide" onclick="next()">下一題</button>
   </div>
 
   <div id="end" class="hide">
-    <h1>🎉 挑戰完成！</h1>
-    <h2 id="score"></h2>
-    <button class="btn" onclick="startGame()">再玩一次</button>
+    <h2>🎉 遊戲結束！</h2>
+    <h3 id="final"></h3>
+    <button onclick="start()">再玩一次</button>
   </div>
 </div>
 
 <script>
-  const data = [
-    { title: "第1題：這是什麼鳥？", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Black-collared_starling_%28Gracupica_nigricollis%29_juvenile.jpg/640px-Black-collared_starling_%28Gracupica_nigricollis%29_juvenile.jpg", desc: "眼睛周圍有黃色裸皮，幼鳥脖子是褐色的，長大後會長出黑色領巾：", opts: ["黑領椋鳥", "紅耳鵯", "麻雀", "珠頸斑鳩"], ans: 0 },
-    { title: "第2題：聽音辨鳥", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/White-breasted_Waterhen_%28Amaurornis_phoenicurus%29_in_Kolkata_I_IMG_6881.jpg/640px-White-breasted_Waterhen_%28Amaurornis_phoenicurus%29_in_Kolkata_I_IMG_6881.jpg", desc: "常在濕地出現，叫聲聽起來像「苦惡、苦惡」：", opts: ["白胸苦惡鳥", "小白鷺", "喜鵲", "蒼鷺"], ans: 0 },
-    { title: "第3題：這是什麼鳥？", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Red-whiskered_Bulbul_%28Pycnonotus_jocosus%29_in_Kolkata_W_IMG_3822.jpg/640px-Red-whiskered_Bulbul_%28Pycnonotus_jocosus%29_in_Kolkata_W_IMG_3822.jpg", desc: "頭頂有高聳黑色冠羽，臉頰有醒目紅斑：", opts: ["噪鶇", "紅耳鵯", "小白鷺", "八哥"], ans: 1 },
-    { title: "第4題：觀鳥常識", img: "", desc: "在野外觀鳥時，哪一種行為是「不正確」的？", opts: ["保持安靜", "用望遠鏡", "大聲叫喊吸引鳥類", "不餵食"], ans: 2 },
-    { title: "第5題：這是什麼鳥？", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Spotted_dove_%28Spilopelia_chinensis_chinensis%29.jpg/640px-Spotted_dove_%28Spilopelia_chinensis_chinensis%29.jpg", desc: "後頸有黑底白點圍巾羽毛，常在公園地面走動：", opts: ["珠頸斑鳩", "家鴿", "黑臉琵鷺", "普通翠鳥"], ans: 0 }
+  const qList = [
+    { t: "第 1 題", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Black-collared_starling_%28Gracupica_nigricollis%29_juvenile.jpg/640px-Black-collared_starling_%28Gracupica_nigricollis%29_juvenile.jpg", d: "眼周有黃色裸皮，幼鳥脖子褐色，長大有黑色領巾：", o: ["黑領椋鳥", "紅耳鵯", "麻雀", "珠頸斑鳩"], a: 0 },
+    { t: "第 2 題", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/White-breasted_Waterhen_%28Amaurornis_phoenicurus%29_in_Kolkata_I_IMG_6881.jpg/640px-White-breasted_Waterhen_%28Amaurornis_phoenicurus%29_in_Kolkata_I_IMG_6881.jpg", d: "常在濕地出現，叫聲「苦惡、苦惡」：", o: ["白胸苦惡鳥", "小白鷺", "喜鵲", "蒼鷺"], a: 0 },
+    { t: "第 3 題", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Red-whiskered_Bulbul_%28Pycnonotus_jocosus%29_in_Kolkata_W_IMG_3822.jpg/640px-Red-whiskered_Bulbul_%28Pycnonotus_jocosus%29_in_Kolkata_W_IMG_3822.jpg", d: "頭頂有高聳黑色冠羽，臉頰有醒目紅斑：", o: ["噪鶇", "紅耳鵯", "小白鷺", "八哥"], a: 1 },
+    { t: "第 4 題", img: "", d: "在野外觀鳥時，哪種行為是錯誤的？", o: ["保持安靜", "使用望遠鏡", "大聲叫喊吸引鳥類", "不餵食"], a: 2 },
+    { t: "第 5 題", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Spotted_dove_%28Spilopelia_chinensis_chinensis%29.jpg/640px-Spotted_dove_%28Spilopelia_chinensis_chinensis%29.jpg", d: "後頸有黑底白點圍巾羽毛，常在地面走動：", o: ["珠頸斑鳩", "家鴿", "黑臉琵鷺", "普通翠鳥"], a: 0 }
   ];
 
-  let cur = 0, pts = 0;
+  let idx = 0, score = 0;
 
-  function startGame() {
-    cur = 0; pts = 0;
+  function start() {
+    idx = 0; score = 0;
     document.getElementById("start").classList.add("hide");
     document.getElementById("end").classList.add("hide");
     document.getElementById("game").classList.remove("hide");
+    loadQ();
+  }
+
+  function loadQ() {
+    document.getElementById("next-btn").classList.add("hide");
+    document.getElementById("ans-msg").innerText = "";
+    const q = qList[idx];
+    document.getElementById("title").innerText = q.t;
+    document.getElementById("desc").innerText = q.d;
+    
+    const img = document.getElementById("img");
+    if(q.img) { img.src = q.img; img.classList.remove("hide"); } 
+    else { img.classList.add("hide"); }
+
+    const box = document.getElementById("opts");
+    box.innerHTML = "";
+    q.o.forEach((optText, i) => {
+      box.innerHTML += `<button class="opt" onclick="check(${i})">${optText}</button>`;
+    });
+  }
+
+  function check(i) {
+    const q = qList[idx];
+    if(i === q.a) {
+      score += 20;
+      document.getElementById("ans-msg").innerText = "✨ 答對了！";
+      document.getElementById("ans-msg").style.color = "green";
+    } else {
+      document.getElementById("ans-msg").innerText = "❌ 答錯！答案是：" + q.o[q.a];
+      document.getElementById("ans-msg").style.color = "red";
+    }
+    document.getElementById("next-btn").classList.remove("hide");
+  }
+
+  function next() {
+    idx++;
+    if(idx < q.length) loadQ();
+    else {
+      document.getElementById("game").classList.add("hide");
+      document.getElementById("end").classList.remove("hide");
+      document.getElementById("final").innerText = "得分：" + score + " 分";
+    }
+  }
+</script>
+</body>
+</html>
